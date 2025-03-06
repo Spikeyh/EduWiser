@@ -1,63 +1,44 @@
-from flask import (
-    session,
-    request,
-    Blueprint,
-    jsonify,
-    current_app,
-    copy_current_request_context,
-)
-from backend import db, SFid
-from backend.models import Input_info, Output_info, User
+from flask import session,request,Blueprint,jsonify,current_app, copy_current_request_context
+from backend import db,SFid
+from backend.models import Input_info,Output_info,User
 from backend.utils import quantitative_data, analytical_results
-
-bp = Blueprint("info", __name__)
-
-
-@bp.route("/api/get_info", methods=["GET", "POST"])
+bp = Blueprint('info', __name__)
+@bp.route('/api/get_info', methods=["GET", "POST"])
 def get_info():
     try:
         try:
-            uid = session["uid"]
+            uid = session['uid']
             user = User.query.filter_by(user_id=uid).first()
             if not user:
                 session.clear()
-                return jsonify({"code": 401, "msg": "login:failed"})
+                return jsonify({"code": 400, "msg": "登录已过期"})
         except Exception as e:
             print(e, flush=True)
-            return jsonify({"code": 401, "msg": "login:failed"})
+            return jsonify({"code": 400, "msg": "登录已过期"})
         count = Input_info.query.filter_by(user_id=uid).count()
-        infos = (
-            Input_info.query.filter_by(user_id=uid)
-            .order_by(Input_info.info_time.desc())
-            .all()
-        )
+        infos = Input_info.query.filter_by(user_id=uid).order_by(Input_info.info_time.desc()).all()
         result = [info.to_dict() for info in infos]
         return jsonify({"code": 200, "count": count, "msg": "获取成功", "data": result})
 
     except Exception as e:
         print(e, flush=True)
-        return jsonify({"code": 400, "msg": "错误", "error": str(e)})
+        return jsonify({"code": 400, "msg": "错误", "error":str(e)})
 
-
-@bp.route("/api/get_output", methods=["POST"])
+@bp.route('/api/get_output', methods=["POST"])
 def get_output():
     try:
         try:
-            uid = session["uid"]
+            uid = session['uid']
             user = User.query.filter_by(user_id=uid).first()
             if not user:
                 session.clear()
-                return jsonify({"code": 401, "msg": "login:failed"})
+                return jsonify({"code": 400, "msg": "登录已过期"})
         except Exception as e:
             print(e, flush=True)
-            return jsonify({"code": 401, "msg": "login:failed"})
+            return jsonify({"code": 400, "msg": "登录已过期"})
         data = request.get_json()
         info_id = data["info_id"]
-        infos = (
-            Output_info.query.filter_by(info_id=info_id, user_id=uid)
-            .order_by(Output_info.output_time.desc())
-            .first()
-        )
+        infos = Output_info.query.filter_by(info_id=info_id, user_id=uid).order_by(Output_info.output_time.desc()).first()
         if infos:
             result = infos.to_dict()
             return jsonify({"code": 200, "msg": "获取成功", "data": result})
@@ -66,7 +47,7 @@ def get_output():
 
     except Exception as e:
         print(e, flush=True)
-        return jsonify({"code": 400, "msg": "错误", "error": str(e)})
+        return jsonify({"code": 400, "msg": "错误", "error":str(e)})
 
 
 # def get_result(new_output):
@@ -80,25 +61,22 @@ def get_output():
 #         print(e, flush=True)
 #         print("插入新结果错误")
 
-
-@bp.route("/api/post_info", methods=["POST"])
+@bp.route('/api/post_info', methods=["POST"])
 def post_info():
     try:
         try:
-            uid = session["uid"]
+            uid = session['uid']
             user = User.query.filter_by(user_id=uid).first()
             if not user:
                 session.clear()
-                return jsonify({"code": 401, "msg": "login:failed"})
+                return jsonify({"code": 400, "msg": "登录已过期"})
         except Exception as e:
             print(e, flush=True)
-            return jsonify({"code": 401, "msg": "login:failed"})
+            return jsonify({"code": 400, "msg": "登录已过期"})
         data = request.get_json()
-
-        new_info, new_output = quantitative_data(
-            data, uid, info_id=SFid.get_id(), output_id=SFid.get_id()
-        )
-
+        
+        new_info, new_output = quantitative_data(data, uid, info_id=SFid.get_id(), output_id=SFid.get_id())
+        
         db.session.add(new_info)
         db.session.commit()
 
@@ -111,26 +89,25 @@ def post_info():
         return jsonify({"code": 200, "msg": "提交成功"})
     except Exception as e:
         print(e, flush=True)
-        return jsonify({"code": 400, "msg": "错误", "error": str(e)})
+        return jsonify({"code": 400, "msg": "错误", "error":str(e)})
 
 
-@bp.route("/api/change_info", methods=["POST"])
+
+@bp.route('/api/change_info', methods=["POST"])
 def change_info():
     try:
         try:
-            uid = session["uid"]
+            uid = session['uid']
             user = User.query.filter_by(user_id=uid).first()
             if not user:
                 session.clear()
-                return jsonify({"code": 401, "msg": "login:failed"})
+                return jsonify({"code": 400, "msg": "登录已过期"})
         except Exception as e:
             print(e, flush=True)
-            return jsonify({"code": 401, "msg": "login:failed"})
+            return jsonify({"code": 400, "msg": "登录已过期"})
         data = request.get_json()
-        new_info, new_output = quantitative_data(
-            data, uid, info_id=data["info_id"], output_id=SFid.get_id()
-        )
-        old_info = Input_info.query.filter_by(info_id=data["info_id"]).first()
+        new_info, new_output = quantitative_data(data, uid, info_id=data['info_id'], output_id=SFid.get_id())
+        old_info = Input_info.query.filter_by(info_id=data['info_id']).first()
         old_info.mother_profession = new_info.mother_profession
         old_info.father_profession = new_info.father_profession
         old_info.mother_education = new_info.mother_education
@@ -151,4 +128,4 @@ def change_info():
         return jsonify({"code": 200, "msg": "修改成功"})
     except Exception as e:
         print(e, flush=True)
-        return jsonify({"code": 400, "msg": "错误", "error": str(e)})
+        return jsonify({"code": 400, "msg": "错误", "error":str(e)})

@@ -2,32 +2,17 @@ from backend import db
 
 
 class User(db.Model):
-    uid = db.Column(db.BigInteger, primary_key=True)
-    nickname = db.Column(db.String(32), nullable=False)
-    password = db.Column(db.String(64), nullable=False)
-    email = db.Column(db.String(32))
-    phonenumber = db.Column(db.String(13))
+    user_id = db.Column(db.BigInteger, primary_key=True)
+    user_name = db.Column(db.String(32), nullable=False)
+    user_password = db.Column(db.String(64), nullable=False)
+    email_address = db.Column(db.BigInteger, nullable=False, unique=True)
 
-    def getUid(self):
-        return self.uid
-
-    def getNickname(self):
-        return self.nickname
-
-    def getEmail(self):
-        return self.email
-
-    def getPhonenumber(self):
-        return self.phonenumber
-
-    def getPassword(self):
-        return self.password
 
 
 class Input_info(db.Model):
     info_id = db.Column(db.BigInteger, primary_key=True)
     info_time = db.Column(db.DateTime, nullable=False)
-    uid = db.Column(db.BigInteger, db.ForeignKey("user.uid"))
+    user_id = db.Column(db.BigInteger, db.ForeignKey("user.user_id"))
     mother_profession = db.Column(db.String(32), nullable=False)
     father_profession = db.Column(db.String(32), nullable=False)
     mother_education = db.Column(db.String(32), nullable=False)
@@ -38,6 +23,7 @@ class Input_info(db.Model):
     household_registration = db.Column(db.String(32), nullable=False)
     date_of_birth = db.Column(db.String(32), nullable=False)
     province = db.Column(db.String(32), nullable=False)
+
 
     def to_dict(self):
         return {
@@ -59,7 +45,7 @@ class Input_info(db.Model):
 class Output_info(db.Model):
     output_id = db.Column(db.BigInteger, primary_key=True)
     info_id = db.Column(db.BigInteger, db.ForeignKey("input_info.info_id"))
-    uid = db.Column(db.BigInteger, db.ForeignKey("user.uid"))
+    user_id = db.Column(db.BigInteger, db.ForeignKey("user.user_id"))
     output_time = db.Column(db.DateTime, nullable=False)
     mother_profession = db.Column(db.SmallInteger)
     father_profession = db.Column(db.SmallInteger)
@@ -72,6 +58,7 @@ class Output_info(db.Model):
     date_of_birth = db.Column(db.SmallInteger)
     province = db.Column(db.String(32))
     output_result = db.Column(db.String(1024), nullable=False)
+
 
     def to_dict(self):
         return {

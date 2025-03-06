@@ -1,9 +1,6 @@
 flask
+Flask-Session
 flask_cors
 flask_sqlalchemy
 pymysql
 flask_mail
-requests
-pycryptodome
-Crypto
-cryptography
