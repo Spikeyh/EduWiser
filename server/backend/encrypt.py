@@ -1,3 +1,6 @@
 import hashlib
-def hash(data):
+
+
+def sha256(data):
     return hashlib.sha256(data.encode()).hexdigest()
+
