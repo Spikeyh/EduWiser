@@ -2,27 +2,27 @@ import React, { useState } from 'react';
 import { View, Swiper, SwiperItem, Image, Text } from '@tarojs/components';
 
 const Home = () => {
-  const [newsList, setNewsList] = useState([
-    {
-      id: 1,
-      title: '最新资讯1',
-      summary: '这是最新资讯1的摘要，点击查看更多详情。',
-      image: '/assets/news1.jpg',
-    },
-    {
-      id: 2,
-      title: '最新资讯2',
-      summary: '这是最新资讯2的摘要，点击查看更多详情。',
-      image: '/assets/news2.jpg',
-    },
-    {
-      id: 3,
-      title: '最新资讯3',
-      summary: '这是最新资讯3的摘要，点击查看更多详情。',
-      image: '/assets/news3.jpg',
-    },
-  ]);
-
+  // const [newsList, setNewsList] = useState([
+  //   {
+  //     id: 1,
+  //     title: '最新资讯1',
+  //     summary: '这是最新资讯1的摘要，点击查看更多详情。',
+  //     image: '/assets/news1.jpg',
+  //   },
+  //   {
+  //     id: 2,
+  //     title: '最新资讯2',
+  //     summary: '这是最新资讯2的摘要，点击查看更多详情。',
+  //     image: '/assets/news2.jpg',
+  //   },
+  //   {
+  //     id: 3,
+  //     title: '最新资讯3',
+  //     summary: '这是最新资讯3的摘要，点击查看更多详情。',
+  //     image: '/assets/news3.jpg',
+  //   },
+  // ]);
+  return (<view></view>)
   return (
     <View className="home">
       {/* 轮播图 */}

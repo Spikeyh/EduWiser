@@ -3,7 +3,8 @@ export default {
     'pages/home/index',
     'pages/plan/index',
     'pages/news/index',
-    'pages/mine/index'
+    'pages/mine/index',
+    'pages/login/index'
   ],
   window: {
     backgroundTextStyle: 'light',

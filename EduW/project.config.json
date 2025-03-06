@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "EduW",
   "description": "教育经济咨询平台",
-  "appid": "touristappid",
+  "appid": "wx920e92cae8427ca9",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -19,7 +19,7 @@
     "minifyWXML": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.25.3",
+  "libVersion": "3.6.2",
   "srcMiniprogramRoot": "dist/",
   "packOptions": {
     "ignore": [],
